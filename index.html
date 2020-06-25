@@ -46,6 +46,9 @@
                 font-family: 'Noto Serif SC';
                 font-style: normal;
             }
+            #content{
+                font-size: 1.25rem;
+            }
         </style>
     </head>
 
@@ -69,12 +72,19 @@
             <div class="row">
                 
                 <div class="col-md">
-                    <h3 class="mb-3" id="sequence">第 &nbsp; 题</h3>
+                    <h3 class="mb-3" id="sequence"></h3>
                     <div class="needs-validation" novalidate="">
 
-                    <div class="mb-3">
+                        <div class="row justify-content-md-center" id="start">
+                            <div class="col-md-auto">
+                            <button class="btn btn-primary btn-lg btn-block">开始测试</button>
+
+                            </div>
+                        </div>
+                    
+                    <div class="mb-3" id="test" style="display: none;">
                         <div class="jumbotron">
-                        <p for="address" id="content">内容加载中，请稍后……</p>
+                        <p id="content">内容加载中，请稍后……</p>
                         </div>
                             <div class="row justify-content-md-center">
                                 <div class="col-md-auto">
