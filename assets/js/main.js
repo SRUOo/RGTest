@@ -38,7 +38,14 @@ function hashChange(){
 
         $("#sequence").text(window.rgData.test[q.group-1].name);
         $("#content").text(window.rgData.test[q.group-1].data[q.seq-1]);
+        
+        if(q.seq > window.rgData.test[q.group-1].data.length &&
+            q.group < window.rgData.test.length){
+            let gro = Number(q.group)+1;
+            location.hash="#group="+ gro +"&seq=1";
+        }
     }
+
 
 
 }
@@ -57,4 +64,8 @@ if (('onhashchange' in window) && ((typeof document.documentMode === 'undefined'
 
 $("#start").click(function(){
     location.hash="#group=1&seq=1";
+})
+$("#btns").click(function(){
+    let seq = Number(RGQuery.seq)+1;
+    location.hash="#group="+ RGQuery.group +"&seq="+seq;
 })
