@@ -20,25 +20,32 @@ window.onload = function(){
     var now = new Date().getTime();
     var page_load_time = now-performance.timing.navigationStart;
     //console.clear();
-    console.log('%c今天你入关了吗？','font-size:2em');
+    console.log('%c今天你入关了🐎？','font-size:2em');
     console.log('%c页面加载完毕，消耗'+Math.round(performance.now()*100)/100+'ms','background:#fff;color:#333;text-shadow:0 0 2px #eee,0 0 3px #eee,0 0 3px #eee,0 0 2px #eee,0 0 3px #eee;');
 };
-
+window.rgResult = [];
 
 //监听触发操作
 function hashChange(){
     let q={};
     location.hash.replace(/([^#&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v);
     window.RGQuery = q;
-    console.log(RGQuery);
+
+    console.log("Query:", RGQuery);
 
     if(q.group && q.seq){
         $("#test").fadeIn();
         $("#start").fadeOut();
 
-        $("#sequence").text(window.rgData.test[q.group-1].name);
-        $("#content").text(window.rgData.test[q.group-1].data[q.seq-1]);
+        let titleData = window.rgData.test[q.group-1].name;
+        let contentData = window.rgData.test[q.group-1].data[q.seq-1];
+
+        $("#sequence").html(titleData);
+        $("#content").html(contentData);
         
+        if(!(titleData && contentData)){
+            location.hash="#result="+sum(rgResult);
+        }
         if(q.seq > window.rgData.test[q.group-1].data.length &&
             q.group < window.rgData.test.length){
             let gro = Number(q.group)+1;
@@ -46,8 +53,22 @@ function hashChange(){
         }
     }
 
+    if(q.result != null){
+        $("#btns").fadeOut();
+        $("#sequence").text("您的入关学浓度："+q.result);
+        $("#test").fadeIn();
+        $("#content").html(123);
+        $("#startButton").text("重新测试");
+    }
 
+}
 
+function sum(arr){
+    var sum = 0;
+    arr.forEach(function(val,index,arr){
+        sum += val;
+    })
+    return sum;
 }
 
 //url变化监听器
@@ -63,9 +84,16 @@ if (('onhashchange' in window) && ((typeof document.documentMode === 'undefined'
 }
 
 $("#start").click(function(){
-    location.hash="#group=1&seq=1";
+    location.href="#group=1&seq=1";
 })
-$("#btns").click(function(){
-    let seq = Number(RGQuery.seq)+1;
-    location.hash="#group="+ RGQuery.group +"&seq="+seq;
+$(".btn").click(function(){
+    let q = RGQuery;
+    if(q.seq != null){
+        let addVal = rgData.test[q.group-1].opt[this.value];
+        window.rgResult[q.group+q.seq] = addVal;
+    }
+    
+
+    let seq = Number(q.seq)+1;
+    location.hash="#group="+ q.group +"&seq="+seq;
 })
