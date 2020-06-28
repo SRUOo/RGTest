@@ -18,7 +18,6 @@ $.ajax(
 window.onload = function(){
     hashChange();
     var now = new Date().getTime();
-    var page_load_time = now-performance.timing.navigationStart;
     //console.clear();
     console.log('%c今天你入关了🐎？','font-size:2em');
     console.log('%c页面加载完毕，消耗'+Math.round(performance.now()*100)/100+'ms','background:#fff;color:#333;text-shadow:0 0 2px #eee,0 0 3px #eee,0 0 3px #eee,0 0 2px #eee,0 0 3px #eee;');
@@ -54,11 +53,18 @@ function hashChange(){
     }
 
     if(q.result != null){
+        let k = compare(q.result);
         $("#btns").fadeOut();
-        $("#sequence").text("您的入关学浓度："+q.result);
+        $("#sequence").text(rgData.result[k].name);
         $("#test").fadeIn();
-        $("#content").html(123);
+        $("#content").html(rgData.result[k].desc);
         $("#startButton").text("重新测试");
+        $("#shareButton").fadeIn();
+        $("#start").fadeIn();
+        $("#shareButton").click(function () {
+            let shareContent = "%23RGTV%20%E6%88%91%E7%9A%84%E5%85%A5%E5%85%B3%E5%AD%A6%E6%B5%93%E5%BA%A6%E6%98%AF"+ q.result +"%E5%88%86%E3%80%90"+rgData.result[k].name+"%E3%80%91%EF%BC%8C%E4%BD%A0%E4%B9%9F%E6%9D%A5%E6%B5%8B%E6%B5%8B%E4%BD%A0%E7%9A%84%E5%85%A5%E5%85%B3%E6%B5%93%E5%BA%A6%E5%90%A7~%20https%3A%2F%2Frgtv.sruo.org%2Findex.html";
+            window.open("https://twitter.com/intent/tweet?text="+shareContent);
+        })
     }
 
 }
@@ -97,3 +103,11 @@ $(".btn").click(function(){
     let seq = Number(q.seq)+1;
     location.hash="#group="+ q.group +"&seq="+seq;
 })
+
+function compare(val){
+    for(let i = 0; i < rgData.result.length; i++){
+        if(val <= rgData.result[i].range){
+            return i;
+        }
+    }
+}
