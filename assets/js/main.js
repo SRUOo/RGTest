@@ -39,7 +39,7 @@ function hashChange(){
         let titleData = window.rgData.test[q.group-1].name;
         let contentData = window.rgData.test[q.group-1].data[q.seq-1];
 
-        $("#sequence").html(titleData);
+        $("#sequence").html(q.group + "." + q.seq);
         $("#content").html(contentData);
         
         if(!(titleData && contentData)){
