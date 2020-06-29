@@ -57,7 +57,7 @@ function hashChange(){
         $("#btns").fadeOut();
         $("#sequence").text(rgData.result[k].name);
         $("#test").fadeIn();
-        $("#content").html(rgData.result[k].desc);
+        $("#content").html("您的测试结果["+q.result+"]分。<br>"+rgData.result[k].desc);
         $("#startButton").text("重新测试");
         $("#shareButton").fadeIn();
         $("#start").fadeIn();
