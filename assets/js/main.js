@@ -1,6 +1,7 @@
 "use strict";
 
 NProgress.start();
+window.rgData;
 
 $.ajax(
     {
@@ -18,7 +19,7 @@ $.ajax(
 window.onload = function(){
     hashChange();
     var now = new Date().getTime();
-    //console.clear();
+    console.clear();
     console.log('%c今天你入关了🐎？','font-size:2em');
     console.log('%c页面加载完毕，消耗'+Math.round(performance.now()*100)/100+'ms','background:#fff;color:#333;text-shadow:0 0 2px #eee,0 0 3px #eee,0 0 3px #eee,0 0 2px #eee,0 0 3px #eee;');
 };
