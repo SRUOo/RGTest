@@ -51,6 +51,11 @@ function hashChange(){
             let gro = Number(q.group)+1;
             location.hash="#group="+ gro +"&seq=1";
         }
+        if(q.tip != null){
+            showTip(q.tip);
+        }else{
+            $("#tip").modal("hide");
+        }
     }
 
     if(q.result != null){
@@ -68,6 +73,12 @@ function hashChange(){
         })
     }
 
+}
+
+function showTip(id){
+    $('#tip').modal();
+    $("#tipTitle").text(id/10);
+    $("#tipContent").html(window.rgData.test[Math.floor(id/10)-1].data[id%10-1]);
 }
 
 function sum(arr){
@@ -94,6 +105,9 @@ $("#start").click(function(){
     location.href="#group=1&seq=1";
 })
 $(".btn").click(function(){
+    if(this.value == ""){
+        return;
+    }
     let q = RGQuery;
     if(q.seq != null){
         let addVal = rgData.test[q.group-1].opt[this.value];
@@ -103,6 +117,11 @@ $(".btn").click(function(){
 
     let seq = Number(q.seq)+1;
     location.hash="#group="+ q.group +"&seq="+seq;
+})
+$("#tipConfirm").click(function(){
+    let q = RGQuery;
+    $("#tip").modal("hide");
+    location.hash="#group="+ q.group +"&seq="+q.seq;
 })
 
 function compare(val){
