@@ -43,6 +43,18 @@ function hashChange(){
         $("#sequence").html(q.group + "." + q.seq);
         $("#content").html(contentData);
         
+        $("a").click(function(){
+            console.log(this)
+            let data_tip = $(this).data("tip");
+            if(typeof data_tip == "undefined" ||
+                typeof RGQuery.tip != "undefined" ||
+                typeof RGQuery.seq == "undefined"){
+                    return;
+            }else{
+                location.hash = location.hash+"&tip="+data_tip;
+            }
+        })
+
         if(!(titleData && contentData)){
             location.hash="#result="+sum(rgResult);
         }
@@ -123,6 +135,7 @@ $("#tipConfirm").click(function(){
     $("#tip").modal("hide");
     location.hash="#group="+ q.group +"&seq="+q.seq;
 })
+
 
 function compare(val){
     for(let i = 0; i < rgData.result.length; i++){
