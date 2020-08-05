@@ -64,8 +64,7 @@ function hashChange(){
                 //Group自增
             let gro = Number(q.group)+1;
             location.hash="#group="+ gro +"&seq=1";
-            $("#player")[0].src=$("#player").data("src")+"up.mp3";
-            $("#player")[0].play();
+            playSound("up");
         }
         if(q.tip != null){
             showTip(q.tip);
@@ -75,6 +74,8 @@ function hashChange(){
     }
 
     if(q.result != null){
+        //得出结果
+        playSound("pirori-wet");
         let qing = (Number(q.result) + 100) / 2;
         $("#qing").css("width", qing+"%");
         $("#ming").css("width", 100-qing+"%");
@@ -147,15 +148,19 @@ $(".btn").click(function(){
     //没错这个进度条是假的，页面早加载完了
     NProgress.start();
     NProgress.done();
-    $("#player")[0].src=$("#player").data("src")+"down.mp3";
-    $("#player")[0].play();
+    playSound("down");
 })
 $("#tipConfirm").click(function(){
+    playSound("pope1");
     let q = RGQuery;
     $("#tip").modal("hide");
     location.hash="#group="+ q.group +"&seq="+q.seq;
 })
 
+function playSound(name){
+    $("#player")[0].src=$("#player").data("src")+name+".mp3";
+    $("#player")[0].play();
+}
 
 function compare(val){
     for(let i = 0; i < rgData.result.length; i++){
