@@ -5,7 +5,7 @@ window.rgData;
 
 $.ajax(
     {
-        url:"data/data.json",
+        url:"https://cdn.jsdelivr.net/gh/qcminecraft/RGtest@master/data/data.json",
         success:function(result){
             NProgress.done();
             window.rgData = result;
@@ -20,6 +20,7 @@ window.onload = function(){
     hashChange();
     var now = new Date().getTime();
     console.clear();
+    console.log("请大佬请喷谢谢！");
     console.log('%c今天你入关了🐎？','font-size:2em');
     console.log('%c页面加载完毕，消耗'+Math.round(performance.now()*100)/100+'ms','background:#fff;color:#333;text-shadow:0 0 2px #eee,0 0 3px #eee,0 0 3px #eee,0 0 2px #eee,0 0 3px #eee;');
 };
@@ -60,8 +61,11 @@ function hashChange(){
         }
         if(q.seq > window.rgData.test[q.group-1].data.length &&
             q.group < window.rgData.test.length){
+                //Group自增
             let gro = Number(q.group)+1;
             location.hash="#group="+ gro +"&seq=1";
+            $("#player")[0].src=$("#player").data("src")+"up.mp3";
+            $("#player")[0].play();
         }
         if(q.tip != null){
             showTip(q.tip);
@@ -71,12 +75,23 @@ function hashChange(){
     }
 
     if(q.result != null){
+        let qing = (Number(q.result) + 100) / 2;
+        $("#qing").css("width", qing+"%");
+        $("#ming").css("width", 100-qing+"%");
+        $('[data-toggle="tooltip"]').tooltip();
+        if(typeof ga == "function"){
+            ga('send', 'event', 'Test', 'getResult', q.result);
+        }
+        $(".progress").fadeIn();
         let k = compare(q.result);
         $("#btns").fadeOut();
         $("#sequence").text(rgData.result[k].name);
         $("#test").fadeIn();
-        $("#content").html("您的测试结果["+q.result+"]分。<br>"+rgData.result[k].desc);
+        $("#content").html("您的测试结果为["+q.result+"]分（分数取值-100~100）。<br>"+rgData.result[k].desc);
         $("#startButton").text("重新测试");
+        $("#startButton").click(function(){
+            window.location="index.html";
+        })
         $("#shareButton").fadeIn();
         $("#start").fadeIn();
         $("#shareButton").click(function () {
@@ -126,9 +141,14 @@ $(".btn").click(function(){
         window.rgResult[q.group+q.seq] = addVal;
     }
     
-
+    //Seq自增
     let seq = Number(q.seq)+1;
     location.hash="#group="+ q.group +"&seq="+seq;
+    //没错这个进度条是假的，页面早加载完了
+    NProgress.start();
+    NProgress.done();
+    $("#player")[0].src=$("#player").data("src")+"down.mp3";
+    $("#player")[0].play();
 })
 $("#tipConfirm").click(function(){
     let q = RGQuery;
