@@ -5,7 +5,8 @@ window.rgData;
 
 $.ajax(
     {
-        url:"https://cdn.jsdelivr.net/gh/qcminecraft/RGtest@master/data/data.json",
+        //url:"https://cdn.jsdelivr.net/gh/qcminecraft/RGtest@master/data/data.json",
+        url:"/data/data.json",
         success:function(result){
             NProgress.done();
             window.rgData = result;
